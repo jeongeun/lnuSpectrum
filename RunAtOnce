@@ -1,0 +1,35 @@
+#g++ -g -O3 -Wall -Wextra -Wpedantic -o step1_skim_e_pythia  step1_skim_e_pythia.cxx $(root-config --cflags --libs)
+#./step1_skim_e_pythia >& log_e.step1 &
+source 130Xcmsset
+g++ -o step1_ele_mg_test step1_skimming_e.cxx $(root-config --cflags --libs)
+./step1_ele_mg_test
+#python step2_histograms_e.py
+#python step2_histograms_m.py
+#python step2_histograms_t.py
+#
+#python step3_plot_e.py
+#python step3_plot_m.py
+#python step3_plot_t.py
+
+
+
+#python histograms_e_py.py
+#python plot_e_py.py
+#python histograms_m.py
+#python histograms_t.py
+#python plot_m.py
+#python plot_t.py
+##g++ -g -O3 -Wall -Wextra -Wpedantic -o skim_e skim_e.cxx $(root-config --cflags --libs)
+##./skim_e
+##g++ -g -O3 -Wall -Wextra -Wpedantic -o skim_m skim_m.cxx $(root-config --cflags --libs)
+##./skim_m
+##g++ -g -O3 -Wall -Wextra -Wpedantic -o skim_t skim_t.cxx $(root-config --cflags --libs)
+##./skim_t
+##
+##python histograms_e.py
+##python histograms_m.py
+##python histograms_t.py
+##
+##python plot_e.py
+##python plot_m.py
+##python plot_t.py
