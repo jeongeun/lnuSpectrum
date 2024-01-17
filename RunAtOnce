@@ -1,15 +1,19 @@
 #g++ -g -O3 -Wall -Wextra -Wpedantic -o step1_skim_e_pythia  step1_skim_e_pythia.cxx $(root-config --cflags --libs)
 #./step1_skim_e_pythia >& log_e.step1 &
 source 130Xcmsset
-g++ -o step1_ele_mg_test step1_skimming_e.cxx $(root-config --cflags --libs)
-./step1_ele_mg_test
-#python step2_histograms_e.py
-#python step2_histograms_m.py
-#python step2_histograms_t.py
-#
-#python step3_plot_e.py
-#python step3_plot_m.py
-#python step3_plot_t.py
+g++ -o step1_ele_mg step1_skimming_e.cxx $(root-config --cflags --libs)
+./step1_ele_mg >& step1_ele.log 
+g++ -o step1_mu_mg step1_skimming_m.cxx $(root-config --cflags --libs)
+./step1_mu_mg >& step1_mu.log
+g++ -o step1_tau_mg step1_skimming_t.cxx $(root-config --cflags --libs)
+./step1_tau_mg >& step1_tau.log
+python3 step2_histograms_e.py 
+python3 step2_histograms_m.py
+python3 step2_histograms_t.py
+
+python3 step3_plot_e.py
+python3 step3_plot_m.py
+python3 step3_plot_t.py
 
 
 

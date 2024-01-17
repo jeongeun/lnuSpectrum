@@ -87,12 +87,12 @@ float DeltaPhi(T v1, T v2, const T c = M_PI)
 }
 
 template <typename T>
-auto FindGoodGenElectrons(T &df) {
-    return df.Define("goodGenElectrons", "abs(LHEPart_pdgId) == 11 && LHEPart_status == 1");
+auto FindGoodGenTaus(T &df) {
+    return df.Define("goodGenTaus", "abs(LHEPart_pdgId) == 15 && LHEPart_status == 1");
 }
 template <typename T>
 auto FindGoodGenNeutrinos(T &df) {
-    return df.Define("goodGenNeutrinos", "abs(LHEPart_pdgId) == 12 && LHEPart_status == 1");
+    return df.Define("goodGenNeutrinos", "abs(LHEPart_pdgId) == 16 && LHEPart_status == 1");
 }
 
 /*
@@ -101,7 +101,7 @@ auto FindGoodGenNeutrinos(T &df) {
  *   */
 template <typename T>
 auto FilterGoodGenEvents(T &df) {
-    return df.Filter("Sum(goodGenElectrons) > 0", "Event has good genElectrons")
+    return df.Filter("Sum(goodGenTaus) > 0", "Event has good genTaus")
              .Filter("Sum(goodGenNeutrinos) > 0", "Event has good genNeutrinos");
 }
 template <typename T>
@@ -137,85 +137,6 @@ auto DeclareLHEVariables(T &df) {
              .Define("scalePDF"    , "Generator_scalePDF");
 }
 
-//template <typename T>
-//auto FindENuPair(T &df) {
-//using namespace ROOT::VecOps;
-//using floats = RVec<float>;
-//using ints = RVec<int>;
-//  auto LEPorigins = [](int nGenPart, ints GenPart_pdgId, ints GenPart_status, floats GenPart_pt)
-//      {
-//        ints out;
-//        int ele_idx = -1;
-//        int nu_idx  = -1;
-//        for( int i = 0; i < nGenPart; i++){
-//            //bool isLast = (GenPart_statusFlags[i] & (int) std::pow(2, 13)) != 0 ;// 13 = isLastCopy
-//            //bool isPrompt = (GenPart_statusFlags[i] & 1) != 0; //  0 = isPrompt
-//            bool isLastElectron = ( abs(GenPart_pdgId[i]) == 11  && GenPart_status[i] == 1); // && isPrompt);    
-//            if(isLastElectron){ ele_idx = i ; break; }
-//        }
-//
-//        for( int j = 0; j < nGenPart; j++){
-//            //bool isLast = (GenPart_statusFlags[i] & (int) std::pow(2, 13)) != 0 ;// 13 = isLastCopy
-//            //bool isPrompt = (GenPart_statusFlags[i] & 1) != 0; //  0 = isPrompt
-//            bool isLastNeutrino = ( abs(GenPart_pdgId[j]) == 12  && GenPart_status[j] == 1 );     
-//            if(isLastNeutrino){ nu_idx  = j ; break; }
-//        }
-//
-//        //if( ele_idx != -1 && nu_idx != -1 && (GenPart_pdgId[ele_idx] * GenPart_pdgId[nu_idx]) < 0){
-//        //    cout << "*** e " << GenPart_pdgId[ele_idx] << " nu " << GenPart_pdgId[nu_idx] 
-//        //         << " ept " << GenPart_pt[ele_idx] << ", npt " << GenPart_pt[nu_idx] << endl;
-//        //}
-//        out.emplace_back(ele_idx);
-//        out.emplace_back(nu_idx);
-//
-//        return out;
-//    };
-//
-//    return df.Define("LEPorigins", LEPorigins, 
-//             {"nGenPart","GenPart_pdgId","GenPart_status","GenPart_pt"})
-//             .Define("ele_idx"   , "LEPorigins[0]")
-//             .Define("nu_idx"    , "LEPorigins[1]")
-//             .Define("pid1"      , "GenPart_pdgId[ele_idx]")
-//             .Define("pid2"      , "GenPart_pdgId[nu_idx]")
-//             .Filter("ele_idx != -1", "Valid ele in selected idx")
-//             .Filter("nu_idx  != -1", "Valid nu in selected idx")
-//             .Filter("pid1 * pid2 < 0", "opposite charge pid1 * pid2 < 0");
-//}
-
-/*
- *  * Declare all variables which we want to study in the analysis
-*/
-//template <typename T>
-//auto DeclareGENVariables(T &df) {
-//    auto add_p4 = [](float pt, float eta, float phi, float mass)
-//    {
-//        return ROOT::Math::PtEtaPhiMVector(pt, eta, phi, mass);
-//    };
-//    auto compute_mt = [](float pt_1, float phi_1, float pt_met, float phi_met)
-//    {
-//        const auto dphi = Helper::DeltaPhi(phi_1, phi_met);
-//        return std::sqrt(2.0 * pt_1 * pt_met * (1.0 - std::cos(dphi)));
-//    };
-//
-//    return df.Define("gen_pt_l"      , "GenPart_pt[ele_idx]")
-//             .Define("gen_eta_l"     , "GenPart_eta[ele_idx]")
-//             .Define("gen_phi_l"     , "GenPart_phi[ele_idx]")
-//             .Define("gen_m_l"       , "GenPart_mass[ele_idx]")
-//             .Define("gen_pdgId_l"   , "GenPart_pdgId[ele_idx]")
-//             .Define("gen_pt_n"      , "GenPart_pt[nu_idx]")
-//             .Define("gen_eta_n"     , "GenPart_eta[nu_idx]")
-//             .Define("gen_phi_n"     , "GenPart_phi[nu_idx]")
-//             .Define("gen_m_n"       , "GenPart_mass[nu_idx]")
-//             .Define("gen_pdgId_n"   , "GenPart_pdgId[nu_idx]")
-//             //.Define("pt_genmet" , "GenMET_pt")
-//             //.Define("phi_genmet", "GenMET_phi")
-//             .Define("gen_p4_l"      , add_p4, {"gen_pt_l", "gen_eta_l", "gen_phi_l", "gen_m_l"})
-//             .Define("gen_p4_n"      , add_p4, {"gen_pt_n", "gen_eta_n", "gen_phi_n", "gen_m_n"})
-//             .Define("gen_p4"        , "gen_p4_l + gen_p4_n")
-//             .Define("gen_m_inv"     , "float(p4.M())")
-//             .Define("gen_mt"        , compute_mt, {"gen_pt_l", "gen_phi_l", "gen_pt_n", "gen_phi_n"})
-//             .Define("gen_mt_met"    , compute_mt, {"gen_pt_l", "gen_phi_l", "pt_genmet", "phi_genmet"});
-//}
 /*
  *  * Add the event weight to the dataset as the column "weight"
 */
@@ -233,10 +154,6 @@ const std::vector<std::string> finalVariables = {
     "lhe_pt_n"  ,"lhe_eta_n" ,"lhe_phi_n" ,"lhe_m_n"    ,"lhe_pdgId_n"   ,
     "pt_genmet" ,"phi_genmet","lhe_p4_l"  ,"lhe_p4_n"   ,"lhe_p4"        ,
     "lhe_m_inv" ,"scalePDF"  ,"lhe_mt"    ,"lhe_mt_met" ,"weight" 
-//    "gen_pt_l"  ,"gen_eta_l" ,"gen_phi_l" ,"gen_m_l"    ,"gen_pdgId_l"   ,
-//    "gen_pt_n"  ,"gen_eta_n" ,"gen_phi_n" ,"gen_m_n"    ,"gen_pdgId_n"   ,
-//    "gen_p4_l"  ,"gen_p4_n"  ,"gen_p4"    ,"gen_m_inv"  ,"gen_mt"        ,
-//    "gen_mt_met" ,"weight"
 };
 
 /*
@@ -258,7 +175,7 @@ int main() {
         std::cout << "RDataFrame " << std::endl;
         std::cout << "Number of events: " << *df.Count() << std::endl;
 
-        auto df1 = FindGoodGenElectrons(df);
+        auto df1 = FindGoodGenTaus(df);
         auto df2 = FindGoodGenNeutrinos(df1);
         auto df3 = FilterGoodGenEvents(df2);
         auto df4 = DeclareLHEVariables(df3);
@@ -267,7 +184,7 @@ int main() {
         auto df5 = AddEventWeight(df4, sample);
         auto dfFinal = df5;
         auto report = dfFinal.Report();
-        dfFinal.Snapshot("Events", sample + "_Skim_e_mgmlm.root", finalVariables);
+        dfFinal.Snapshot("Events", sample + "_Skim_t_mgmlm.root", finalVariables);
         time.Stop();
 
         report->Print();

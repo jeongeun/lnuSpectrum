@@ -61,14 +61,14 @@ def main():
 
     # Loop through skimmed datasets and produce histograms of variables
     for name, label in [
-            ("120-200"  , "tnu_120-200"),
-            ("200-400"  , "tnu_200-400"),
-            #("400-800"  , "tnu_400-800"),
-            ("800-1500"  , "tnu_800-1500"),
-            ("1500-2500" , "tnu_1500-2500"),
-            ("2500-4000" , "tnu_2500-4000"),
-            ("4000-6000" , "tnu_4000-6000"),
-            ("6000-inf"  , "tnu_6000-inf"),
+            #("120to200"  , "tnu_120to200"),
+            #("200to400"  , "tnu_200to400"),
+            ("400to800"  , "tnu_400to800"),
+            ("800to1500"  , "tnu_800to1500"),
+            ("1500to2500" , "tnu_1500to2500"),
+            ("2500to4000" , "tnu_2500to4000"),
+            ("4000to6000" , "tnu_4000to6000"),
+            ("6000"       , "tnu_6000"),
         ]:
         print(">>> Process skimmed sample {} for process {}".format(name, label))
 

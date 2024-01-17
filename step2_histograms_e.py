@@ -14,31 +14,34 @@ ROOT.gROOT.SetBatch(True)
 # specifying the histogram layout as value. The tuple sets the number of bins,
 # the lower edge and the upper edge of the histogram.
 default_nbins = 30
+#    "lhe_pt_l"  ,"lhe_eta_l" ,"lhe_phi_l" ,"lhe_m_l"    ,"lhe_pdgId_l"   ,
+#    "lhe_pt_n"  ,"lhe_eta_n" ,"lhe_phi_n" ,"lhe_m_n"    ,"lhe_pdgId_n"   ,
+#    "pt_genmet" ,"phi_genmet","lhe_p4_l"  ,"lhe_p4_n"   ,"lhe_p4"        ,
+#    "lhe_m_inv" ,"scalePDF"  ,"lhe_mt"    ,"lhe_mt_met" ,"weight" 
 
 ranges = {
-        "pt_l": (100, 0, 5000),
-        "pt_n": (100, 0, 5000),
-        "eta_l": (default_nbins, -2.5, 2.5),
-        "eta_n": (default_nbins, -2.5, 2.5),
-        "phi_l": (default_nbins, -3.14, 3.14),
-        "phi_n": (default_nbins, -3.14, 3.14),
-        "pdgId_l": (40, -20, 20),
-        "pdgId_n": (40, -20, 20),
+        "lhe_pt_l": (100, 0, 5000),
+        "lhe_pt_n": (100, 0, 5000),
+        "lhe_eta_l": (default_nbins, -3.0, 3.0),
+        "lhe_eta_n": (default_nbins, -3.0, 3.0),
+        "lhe_phi_l": (default_nbins, -3.14, 3.14),
+        "lhe_phi_n": (default_nbins, -3.14, 3.14),
+        "lhe_pdgId_l": (40, -20, 20),
+        "lhe_pdgId_n": (40, -20, 20),
         "pt_genmet": (100, 0, 5000),
         "phi_genmet": (default_nbins, -3.14, 3.14),
-        "mass_l": (default_nbins, 0, 2),
-        "mass_n": (default_nbins, 0, 2),
-        "mt": (400, 0, 8000),
-        "mt_met": (400, 0, 8000),
-        "m_inv": (400, 0, 8000),
-        "scalePDF": (400, 0, 8000),
+        "lhe_m_l": (default_nbins, 0, 2),
+        "lhe_m_n": (default_nbins, 0, 2),
+        "lhe_mt": (200, 0, 8000),
+        "lhe_mt_met": (200, 0, 8000),
+        "lhe_m_inv": (200, 0, 8000),
+        "scalePDF": (200, 0, 8000),
        } 
 
 
 # Book a histogram for a specific variable
 def bookHistogram(df, variable, range_):
-    return df.Histo1D(ROOT.ROOT.RDF.TH1DModel(variable, variable, range_[0], range_[1], range_[2]),\
-                      variable, "weight")
+    return df.Histo1D(ROOT.ROOT.RDF.TH1DModel(variable, variable, range_[0], range_[1], range_[2]), variable, "weight")
 
 
 # Write a histogram with a given name to the output ROOT file
@@ -62,7 +65,7 @@ def main():
 
     # Loop through skimmed datasets and produce histograms of variables
     for name, label in [
-            ("120to200"   , "enu_120to200"   ),
+            #("120to200"   , "enu_120to200"   ),
             #("200to400"   , "enu_200to400"   ),
             ("400to800"   , "enu_400to800"   ),
             ("800to1500"  , "enu_800to1500"  ),

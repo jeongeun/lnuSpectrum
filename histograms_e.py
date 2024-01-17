@@ -61,14 +61,14 @@ def main():
 
     # Loop through skimmed datasets and produce histograms of variables
     for name, label in [
-            ("120-200"  , "enu_120-200"),
-            ("200-400"  , "enu_200-400"),
-            #("400-800"  , "enu_400-800"),
-            ("800-1500"  , "enu_800-1500"),
-            ("1500-2500" , "enu_1500-2500"),
-            ("2500-4000" , "enu_2500-4000"),
-            ("4000-6000" , "enu_4000-6000"),
-            ("6000-inf"  , "enu_6000-inf"),
+            #("120to200"  , "enu_120to200"),
+            #("200to400"  , "enu_200to400"),
+            ("400to800"   , "enu_400to800"),
+            ("800to1500"  , "enu_800to1500"),
+            ("1500to2500" , "enu_1500to2500"),
+            ("2500to4000" , "enu_2500to4000"),
+            ("4000to6000" , "enu_4000to6000"),
+            ("6000"       , "enu_6000"),
         ]:
         print(">>> Process skimmed sample {} for process {}".format(name, label))
 
